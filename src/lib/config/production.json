@@ -1,0 +1,11 @@
+{
+  "env": {
+    "environment": "production",
+    "hostname": "http://localhost:8080",
+    "apiBaseUrl": "https://api.bisagawe.com",
+    "apiKey": "x-api-key",
+    "meta": {
+      "title": "Bisa Gawe"
+    }
+  }
+}
