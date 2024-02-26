@@ -1,7 +1,7 @@
 import React from "react";
 import FormGenerator from "./form-generator";
 import { Box, Card, CardBody, CardHeader } from "@chakra-ui/react";
-import { useFormik } from "formik";
+import { Formik, useFormik } from "formik";
 
 const ExampleForm = () => {
   const formik = useFormik({
@@ -20,7 +20,7 @@ const ExampleForm = () => {
       label: "Name",
       type: "text",
       placeholder: "Input the name",
-      // colSpan: 1,
+      colSpan: 1,
     },
     {
       id: "asdads",
@@ -32,7 +32,7 @@ const ExampleForm = () => {
         { label: "asdad", value: "cuya" },
       ],
       placeholder: "Input the name",
-      // colSpan: 1,
+      colSpan: 1,
     },
     {
       id: "password",
@@ -72,18 +72,15 @@ const ExampleForm = () => {
     },
   ];
 
+  console.log(formik.values);
+
   return (
     // <div>ExampleForm</div>
     <Box mx={40}>
       <Card>
         {/* <CardHeader></CardHeader> */}
         <CardBody>
-          <FormGenerator
-            dataForm={dataForm}
-            formik={formik}
-            id={"form-generator"}
-            grid={2}
-          />
+          <FormGenerator dataForm={dataForm} formik={formik} id={"form-generator"} grid={2} />
         </CardBody>
       </Card>
     </Box>
