@@ -6,6 +6,11 @@ export default function FormRegister() {
   const formik = useFormik({
     initialValues: {
       name: "",
+      NISN: "",
+      tempatLahir: "",
+      agama: "",
+      noHp: "",
+      alamatLengkap: "",
     },
   });
 
@@ -31,7 +36,7 @@ export default function FormRegister() {
       // colSpan: 1,
     },
     {
-      id: "tempat lahir",
+      id: "tempatlahir",
       label: "Tempat Lahir",
       type: "text",
       placeholder: "Tempat Lahir",
@@ -45,14 +50,14 @@ export default function FormRegister() {
       colSpan: 1,
     },
     {
-      id: "number",
+      id: "noHp",
       label: "No HP",
       type: "number",
       placeholder: "No HP",
       colSpan: 1,
     },
     {
-      id: "nama lengkap",
+      id: "alamatLengkap",
       label: "Alamat Lengkap",
       type: "textarea",
       placeholder: "Alamat Lengkap",
