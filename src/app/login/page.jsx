@@ -1,39 +1,37 @@
 "use client";
-import { Image } from "@chakra-ui/next-js";
-import { Button, ButtonGroup, Card, CardBody, CardFooter, Divider, Heading, Stack, Text } from "@chakra-ui/react";
-import React from "react";
+import { Box, Button, Container, Heading, Text } from "@chakra-ui/react";
+import React, { useState } from "react";
+import LoginWithPhoneNumber from "./components/loginWithPhoneNubmber";
+import HeaderLoginPpdb from "@/components/headerPpdb/headerLoginPpdb";
+import LoginWithPhoneEmail from "./components/loginWithEmail";
 
 const Login = () => {
+  const [isUsingEmail, setIsUsingEmail] = useState(true);
+
   return (
-    <Card maxW="sm">
-      <CardBody>
-        <Image
-          src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-          alt="Green double couch with wooden legs"
-          borderRadius=""
-          width={400}
-          height={400}
-        />
-        <Stack mt="6" spacing="3">
-          <Heading size="md">Living room Sofa</Heading>
-          <Text>This sofa is perfect for modern tropical spaces, baroque inspired spaces, earthy toned spaces and for people who love a chic design with a sprinkle of vintage design.</Text>
-          <Text color="blue.600" fontSize="2xl">
-            $450
-          </Text>
-        </Stack>
-      </CardBody>
-      <Divider />
-      <CardFooter>
-        <ButtonGroup spacing="2">
-          <Button variant="solid" colorScheme="blue">
-            Buy now
-          </Button>
-          <Button variant="ghost" colorScheme="blue">
-            Add to cart
-          </Button>
-        </ButtonGroup>
-      </CardFooter>
-    </Card>
+    <Box px="49px" py="24px">
+      <HeaderLoginPpdb />
+      <Box mt={45}>
+        <Container maxW="100vw" h="696px" display="flex" flexDirection="column" justifyContent="center" mt="60px" bg=" #BEE3F8;" rounded={8} gap="56px">
+          <Heading textAlign="center">Login Melalui Ezzi School</Heading>
+          <Container display="flex" flexDir="column" gap="56px">
+            <Box>
+              {isUsingEmail ? <LoginWithPhoneEmail /> : <LoginWithPhoneNumber />}
+              <Box textAlign="center" mt="16px">
+                <Text onClick={() => setIsUsingEmail(!isUsingEmail)} cursor="pointer" textDecoration="underline" fontStyle="italic">
+                  Masuk Melalui {isUsingEmail ? "No Hp" : "Email"}
+                </Text>
+              </Box>
+            </Box>
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <Button bgColor="#2C5282" color="white" _hover="none">
+                Masuk
+              </Button>
+            </Box>
+          </Container>
+        </Container>
+      </Box>
+    </Box>
   );
 };
 

@@ -34,7 +34,7 @@ export default function FormDataTambah() {
       placeholder: "Lama Sekolah",
     },
     {
-      type: "title",
+      type: "subTitle",
       text: "Data Orang Tua/Wali",
       id: "asasdasdd",
     },

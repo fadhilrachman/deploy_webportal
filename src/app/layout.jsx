@@ -1,6 +1,7 @@
 import { Inter, Poppins } from "next/font/google";
 // import "./globals.css";
 import { Providers } from "@/lib/provider";
+import HeaderLoginPpdb from "@/components/headerPpdb/headerLoginPpdb";
 const inter = Inter({ subsets: ["latin"] });
 
 const poppins = Poppins({
