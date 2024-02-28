@@ -1,12 +1,29 @@
-import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, Box, Alert, AlertIcon, AlertDescription } from "@chakra-ui/react";
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+  Box,
+  Alert,
+  AlertIcon,
+  AlertDescription,
+} from "@chakra-ui/react";
 
-export default function TableRecheck() {
+export default function TableRecheck({ goToNext, goToPrevious }) {
   return (
     <Box>
       <Alert status="error" rounded={8} mb="56px">
         <AlertIcon />
         <AlertDescription>
-          Anda berada pada halaman terakhir pendaftaran, mohon cek kembali data yang sudah anda masukkan, pastikan data sesuai dan tidak ada yang salah. Bila ada kesalahan pada pengisian, mohon kembali kehalaman yang harus anda ubah
+          Anda berada pada halaman terakhir pendaftaran, mohon cek kembali data
+          yang sudah anda masukkan, pastikan data sesuai dan tidak ada yang
+          salah. Bila ada kesalahan pada pengisian, mohon kembali kehalaman yang
+          harus anda ubah
         </AlertDescription>
       </Alert>
       <TableContainer>

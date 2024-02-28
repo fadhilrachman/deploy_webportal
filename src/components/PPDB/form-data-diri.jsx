@@ -1,8 +1,8 @@
 import FormGenerator from "@/components/shared/form-generator";
-import { Box } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import { useFormik } from "formik";
 
-export default function FormRegister() {
+export default function FormRegister({ goToNext, goToPrevious }) {
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -29,35 +29,35 @@ export default function FormRegister() {
       // colSpan: 1,
     },
     {
-      id: "NISN",
+      id: "nisn",
       label: "NISN",
       type: "text",
       placeholder: "NISN",
       // colSpan: 1,
     },
     {
-      id: "tempatlahir",
+      id: "dob",
       label: "Tempat Lahir",
       type: "text",
       placeholder: "Tempat Lahir",
       // colSpan: 1,
     },
     {
-      id: "agama",
+      id: "religion",
       label: "Agama",
       type: "text",
       placeholder: "Agama",
       colSpan: 1,
     },
     {
-      id: "noHp",
+      id: "phone",
       label: "No HP",
       type: "number",
       placeholder: "No HP",
       colSpan: 1,
     },
     {
-      id: "alamatLengkap",
+      id: "address",
       label: "Alamat Lengkap",
       type: "textarea",
       placeholder: "Alamat Lengkap",
@@ -67,7 +67,29 @@ export default function FormRegister() {
 
   return (
     <Box>
-      <FormGenerator dataForm={dataForm} formik={formik} id={"form-generator"} grid={2} />
+      <FormGenerator
+        dataForm={dataForm}
+        formik={formik}
+        id={"form-generator"}
+        grid={2}
+      />
+      <Box
+        display="flex"
+        justifyContent="end"
+        alignItems="center"
+        pt={16}
+        gap={4}
+      >
+        <Button onClick={() => goToPrevious()}>Kembali</Button>
+        <Button
+          bgColor="#2C5282"
+          color="white"
+          _hover={"none"}
+          onClick={() => goToNext()}
+        >
+          Selanjutnya
+        </Button>
+      </Box>
     </Box>
   );
 }

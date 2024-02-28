@@ -1,8 +1,8 @@
 import FormGenerator from "@/components/shared/form-generator";
-import { Box } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import { useFormik } from "formik";
 
-export default function FormUploadFolder() {
+export default function FormUploadFolder({ goToNext, goToPrevious }) {
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -62,7 +62,29 @@ export default function FormUploadFolder() {
 
   return (
     <Box>
-      <FormGenerator dataForm={dataForm} formik={formik} id={"form-generator"} grid={2} />
+      <FormGenerator
+        dataForm={dataForm}
+        formik={formik}
+        id={"form-generator"}
+        grid={2}
+      />
+      <Box
+        display="flex"
+        justifyContent="end"
+        alignItems="center"
+        pt={16}
+        gap={4}
+      >
+        <Button onClick={() => goToPrevious()}>Kembali</Button>
+        <Button
+          bgColor="#2C5282"
+          color="white"
+          _hover={"none"}
+          onClick={() => goToNext()}
+        >
+          Selanjutnya
+        </Button>
+      </Box>
     </Box>
   );
 }

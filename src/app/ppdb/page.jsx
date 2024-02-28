@@ -1,14 +1,21 @@
 "use client";
 
 import { Box, Button, Flex, Grid, useSteps } from "@chakra-ui/react";
-import MyStepper from "./components/Mysteper";
-import FormRegister from "./components/formRegister";
-import FormDataTambah from "./components/formDataTambah";
-import FormUploadFolder from "./components/formUploadFolder";
-import TableRecheck from "./components/tableRechek";
-import HeaderLoginPpdb from "@/components/headerPpdb/headerLoginPpdb";
+import {
+  FormDataDiri,
+  FormDataTambah,
+  FormUploadBerkas,
+  Stepper,
+  TableRechek,
+  HeaderPPDB,
+} from "@/components/PPDB";
 
-const steps = [{ title: "Data Diri" }, { title: "Data Tambahan" }, { title: "Upload Berkas" }, { title: "Cek Ulang" }];
+const steps = [
+  { title: "Data Diri" },
+  { title: "Data Tambahan" },
+  { title: "Upload Berkas" },
+  { title: "Cek Ulang" },
+];
 
 export default function Pepep() {
   const { activeStep, goToNext, goToPrevious } = useSteps({
@@ -16,37 +23,25 @@ export default function Pepep() {
     count: steps.length,
   });
 
-  const renderForm = () => {
-    if (activeStep === 0) {
-      return <FormRegister />;
-    } else if (activeStep === 1) {
-      return <FormDataTambah />;
-    } else if (activeStep === 2) {
-      return <FormUploadFolder />;
-    } else if (activeStep === 3) {
-      return <TableRecheck />;
-    }
+  const form = {
+    0: <FormDataDiri goToNext={goToNext} goToPrevious={goToPrevious} />,
+    1: <FormDataTambah goToNext={goToNext} goToPrevious={goToPrevious} />,
+    2: <FormUploadBerkas goToNext={goToNext} goToPrevious={goToPrevious} />,
+    3: <TableRechek goToNext={goToNext} goToPrevious={goToPrevious} />,
   };
 
   return (
     <Box px="49px" py="24px">
       <Grid gap={16}>
-        <HeaderLoginPpdb />
+        <HeaderPPDB />
         <Box rounded="8px" bg="#BEE3F8" h={156}>
           <Flex align="center" w="100%" h="100%" justify="center">
-            <MyStepper activeStep={activeStep} steps={steps} />
+            <Stepper activeStep={activeStep} steps={steps} />
           </Flex>
         </Box>
       </Grid>
 
-      <Box mt={45}>{renderForm()}</Box>
-
-      <Box display="flex" justifyContent="end" alignItems="center" pt={16} gap={4}>
-        <Button onClick={() => goToPrevious()}>Kembali</Button>
-        <Button bgColor="#2C5282" color="white" _hover={"none"} onClick={() => goToNext()}>
-          Selanjutnya
-        </Button>
-      </Box>
+      <Box mt={45}>{form[activeStep]}</Box>
     </Box>
   );
 }
