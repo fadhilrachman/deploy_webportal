@@ -1,8 +1,12 @@
 import FormGenerator from "@/components/shared/form-generator";
+import { useRequestOtp } from "@/hooks/auth.hooks";
 import { Box, Button } from "@chakra-ui/react";
 import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
 
 export default function FormRegister({ goToNext, goToPrevious }) {
+  // const { create } = useRequestOtp();
+  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -24,6 +28,7 @@ export default function FormRegister({ goToNext, goToPrevious }) {
     {
       id: "name",
       label: "Nama Lengkap",
+      // helperText: "NISN akan dipakai sebagai password siswa",
       type: "text",
       placeholder: "Nama Lengkap",
       // colSpan: 1,

@@ -1,11 +1,15 @@
 import { useState, useMemo } from "react";
-import { useQuery, QueryFunction, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
-const useAsync = (asyncFunction) => {
+export const useAsync = (asyncFunction) => {
+  // const {}=useQuery('post')
   const [status, setStatus] = useState("idle");
   const [value, setValue] = useState(null);
   const [error, setError] = useState(null);
-
+  // The execute function wraps asyncFunction and
+  // handles setting state for pending, value, and error.
+  // useCallback ensures the below useEffect is not called
+  // on every render, but only if asyncFunction changes.
   const errorMessage = useMemo(() => {
     if (error) {
       if (error.response && error.response.data) {
@@ -44,9 +48,8 @@ const useAsync = (asyncFunction) => {
   return { execute, status, value, error, errorMessage, fieldErrors };
 };
 
-const useGetQuery = ({ queryKey, queryFn, enabled = true }) => {
-  //   const queryClient = useQueryClient();
-  const { data, status, error, refetch, isFetching } = useQuery(
+export const useGetQuery = ({ queryKey, queryFn, enabled = true }) => {
+  const { data, status, error, isIdle, refetch, isFetching } = useQuery(
     queryKey,
     queryFn,
     {
@@ -64,13 +67,5 @@ const useGetQuery = ({ queryKey, queryFn, enabled = true }) => {
     return null;
   }, [error]);
 
-  return {
-    data,
-    status,
-    errorMessage,
-    refetch,
-    isFetching,
-  };
+  return { data, status, isIdle, errorMessage, refetch, isFetching };
 };
-
-export { useAsync, useGetQuery };

@@ -9,6 +9,8 @@ import {
   TableRechek,
   HeaderPPDB,
 } from "@/components/PPDB";
+import { useRequestOtp } from "@/hooks/auth.hooks";
+// import { useListDataPPDb } from "@/hooks/ppdb.hooks";
 
 const steps = [
   { title: "Data Diri" },
@@ -18,13 +20,14 @@ const steps = [
 ];
 
 export default function Pepep() {
+  const { create } = useRequestOtp();
   const { activeStep, goToNext, goToPrevious } = useSteps({
     index: 0,
     count: steps.length,
   });
 
   const form = {
-    0: <FormDataDiri goToNext={goToNext} goToPrevious={goToPrevious} />,
+    0: <FormUploadBerkas goToNext={goToNext} goToPrevious={goToPrevious} />,
     1: <FormDataTambah goToNext={goToNext} goToPrevious={goToPrevious} />,
     2: <FormUploadBerkas goToNext={goToNext} goToPrevious={goToPrevious} />,
     3: <TableRechek goToNext={goToNext} goToPrevious={goToPrevious} />,

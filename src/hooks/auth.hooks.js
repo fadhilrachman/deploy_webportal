@@ -4,7 +4,9 @@ import { useGetQuery, useAsync } from "@/lib/fetcher";
 
 export const useRequestOtp = () => {
   const { execute, status, value, errorMessage, fieldErrors } = useAsync(
-    axios.post("/web-portal/ppdb/request-otp")
+    (data) => {
+      return axios.post("/web-portal/ppdb/verify-otp", data);
+    }
   );
 
   async function create(payload) {
@@ -27,7 +29,9 @@ export const useRequestOtp = () => {
 
 export const useVerifyOtp = () => {
   const { execute, status, value, errorMessage, fieldErrors } = useAsync(
-    axios.post("/web-portal/ppdb/verify-otp")
+    (data) => {
+      return axios.post("/web-portal/ppdb/verify-otp", data);
+    }
   );
 
   async function create(payload) {
@@ -50,7 +54,9 @@ export const useVerifyOtp = () => {
 
 export const useRegister = () => {
   const { execute, status, value, errorMessage, fieldErrors } = useAsync(
-    axios.post("/web-portal/ppdb/")
+    (data) => {
+      return axios.post("/web-portal/ppdb/", data);
+    }
   );
 
   async function create(payload) {

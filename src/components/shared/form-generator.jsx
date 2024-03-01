@@ -9,26 +9,40 @@ import {
   FormLabel,
   Grid,
   GridItem,
+  Image,
   Input,
   InputGroup,
   InputLeftAddon,
   InputRightElement,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Select,
   SimpleGrid,
   Stack,
   Text,
   Textarea,
 } from "@chakra-ui/react";
+import { FaFile } from "react-icons/fa";
 import { FieldArray, Formik, FormikProvider } from "formik";
 import React, { useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
 //   import { useNavigate } from 'react-router-dom';
+import { useDropzone } from "react-dropzone";
 import { useRouter } from "next/navigation";
 import TimeField from "react-simple-timefield";
+import { CiCircleCheck } from "react-icons/ci";
+import { MdAttachFile } from "react-icons/md";
+import { AiOutlineClose } from "react-icons/ai";
 const FormGenerator = ({ id, dataForm, formik, grid }) => {
-  console.log({ grid });
   const navigate = useRouter();
   const handleComponentFields = (res, isArray, index) => {
+    // const file =
+
     // const values =isArray?formik.values[res.id]:formik.values[res.id]
     // const values = isArray
     //   ? formik.values[res?.id][index][isArray.id] || ''
@@ -60,6 +74,137 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
                 size={"md"}
               />
             </InputGroup>
+            <FormErrorMessage>{formik.errors[res.id]}</FormErrorMessage>
+            <FormHelperText>{res?.helperText}</FormHelperText>
+          </FormControl>
+        </GridItem>
+      );
+    }
+    if (res.type == "file" || isArray?.type == "file") {
+      const [file, setFile] = useState("");
+      const [dialog, setDialog] = useState(false);
+      const [isUpload, setIsUpload] = useState(false);
+      const { acceptedFiles, fileRejections, getRootProps, getInputProps } =
+        useDropzone({
+          onDrop: (acceptedFiles, rejectedFiles) => {
+            formik.setFieldValue(res.id, acceptedFiles);
+            setIsUpload(true);
+            acceptedFiles.forEach((file) => {
+              const reader = new FileReader();
+
+              // Baca file sebagai URL data
+              reader.readAsDataURL(file);
+
+              // Setelah membaca file, ambil URL data dan lakukan sesuatu dengannya
+              reader.onload = () => {
+                const fileUrl = reader.result;
+                setFile(fileUrl);
+                console.log("File URL:", fileUrl);
+                // Lakukan sesuatu dengan fileUrl, seperti menampilkannya atau mengirimkannya ke server
+              };
+            });
+          },
+
+          maxFiles: 1,
+        });
+
+      return (
+        <GridItem colSpan={res?.colSpan || grid} key={res.id}>
+          {/* <img src={file} /> */}
+          <FormControl
+            isRequired={res?.isRequired || false}
+            isInvalid={formik.errors[res.id] && formik.touched[res.id]}
+          >
+            <FormLabel>{label}</FormLabel>
+            {isUpload ? (
+              <Box
+                borderRadius={"5px"}
+                mx={3}
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"space-between"}
+                backgroundColor={"#ebf3f7"}
+                padding={"10px"}
+              >
+                <Text
+                  color={"#2aa9e8"}
+                  fontWeight={100}
+                  cursor={"pointer"}
+                  display={"flex"}
+                  alignItems={"center"}
+                  onClick={() => {
+                    setDialog(true);
+                  }}
+                >
+                  <MdAttachFile />
+                  examplegambar.png
+                </Text>
+                <Text
+                  cursor={"pointer"}
+                  onClick={() => {
+                    formik.setFieldValue(res.id, "");
+                    setIsUpload(false);
+                  }}
+                >
+                  <AiOutlineClose color="red" />
+                </Text>
+              </Box>
+            ) : (
+              <Box
+                border={"1px solid #A8A8A8"}
+                borderStyle={"dashed"}
+                borderRadius={"10px"}
+                height={"100px"}
+                mx={3}
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                _hover={{ backgroundColor: "#dee0e0" }}
+                cursor={"pointer"}
+                {...getRootProps()}
+              >
+                <input
+                  {...getInputProps()}
+                  type="file"
+                  ID="fileSelect"
+                  accept=".jpg, .png, .pdf"
+                />
+
+                <Box display={"flex"} alignItems={"center"}>
+                  <FaFile color="gray" height={"200px"} width={"200px"} />
+                  <Text ml={2}>Pilih atau Drag File</Text>
+                </Box>
+              </Box>
+            )}
+
+            <Modal
+              isOpen={dialog}
+              onClose={() => {
+                setDialog(false);
+              }}
+            >
+              <ModalOverlay />
+              <ModalContent>
+                <ModalHeader>Modal Title</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                  <Image src={file} height={"100px"} />
+                </ModalBody>
+
+                <ModalFooter>
+                  <Button
+                    colorScheme="blue"
+                    mr={3}
+                    onClick={() => {
+                      setDialog(false);
+                    }}
+                  >
+                    Close
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+
             <FormErrorMessage>{formik.errors[res.id]}</FormErrorMessage>
             <FormHelperText>{res?.helperText}</FormHelperText>
           </FormControl>

@@ -11,51 +11,51 @@ export default function FormUploadFolder({ goToNext, goToPrevious }) {
 
   const dataForm = [
     {
-      type: "title",
+      type: "subTitle",
       text: "Upload Berkas Data diri",
       id: "asasdasdd",
       // colSpan: 1,
     },
     {
-      id: "name",
-      label: "Nama Lengkap",
-      type: "text",
-      placeholder: "Nama Lengkap",
-      // colSpan: 1,
-    },
-    {
-      id: "NISN",
-      label: "NISN",
-      type: "text",
-      placeholder: "NISN",
-      // colSpan: 1,
-    },
-    {
-      id: "tempat lahir",
-      label: "Tempat Lahir",
-      type: "text",
-      placeholder: "Tempat Lahir",
-      // colSpan: 1,
-    },
-    {
-      id: "agama",
-      label: "Agama",
-      type: "text",
+      id: "birthCertificateFile",
+      label: "Upload File Surat Kata Lahi ",
+      type: "file",
       placeholder: "Agama",
       colSpan: 1,
     },
     {
-      id: "number",
-      label: "No HP",
-      type: "number",
-      placeholder: "No HP",
+      id: "familyCardFile",
+      label: "Upload File Kartu Keluarga (KK)",
+      type: "file",
+      placeholder: "Nama Lengkap",
       colSpan: 1,
     },
     {
-      id: "nama lengkap",
-      label: "Alamat Lengkap",
-      type: "textarea",
-      placeholder: "Alamat Lengkap",
+      id: "ktpFile",
+      label: "Upload File Kartu Tanda Penduduk (KK)",
+      type: "file",
+      placeholder: "NISN",
+      colSpan: 1,
+    },
+
+    {
+      type: "subTitle",
+      text: "Upload Berkas Data diri",
+      id: "asasdasdd",
+      // colSpan: 1,
+    },
+    {
+      id: "certificateOfGraduationFile",
+      label: "Upload File Surat Keterangan Lulus",
+      type: "file",
+      placeholder: "Tempat Lahir",
+      // colSpan: 1,
+    },
+    {
+      id: "raportFile",
+      label: "Upload File Raport",
+      type: "file",
+      placeholder: "Tempat Lahir",
       // colSpan: 1,
     },
   ];
@@ -66,7 +66,7 @@ export default function FormUploadFolder({ goToNext, goToPrevious }) {
         dataForm={dataForm}
         formik={formik}
         id={"form-generator"}
-        grid={2}
+        grid={3}
       />
       <Box
         display="flex"
