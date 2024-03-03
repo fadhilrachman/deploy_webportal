@@ -21,6 +21,7 @@ const steps = [
 
 export default function Pepep() {
   const { create } = useRequestOtp();
+
   const { activeStep, goToNext, goToPrevious } = useSteps({
     index: 0,
     count: steps.length,
