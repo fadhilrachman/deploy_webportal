@@ -27,7 +27,7 @@ export default function Pepep() {
   });
 
   const form = {
-    0: <FormUploadBerkas goToNext={goToNext} goToPrevious={goToPrevious} />,
+    0: <FormDataDiri goToNext={goToNext} goToPrevious={goToPrevious} />,
     1: <FormDataTambah goToNext={goToNext} goToPrevious={goToPrevious} />,
     2: <FormUploadBerkas goToNext={goToNext} goToPrevious={goToPrevious} />,
     3: <TableRechek goToNext={goToNext} goToPrevious={goToPrevious} />,

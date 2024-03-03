@@ -1,22 +1,40 @@
 import FormGenerator from "@/components/shared/form-generator";
+import { usePPDB } from "@/context/ppdb.context";
 import { useRequestOtp } from "@/hooks/auth.hooks";
 import { Box, Button } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
-
+import { useEffect } from "react";
+import * as Yup from "yup";
 export default function FormRegister({ goToNext, goToPrevious }) {
   // const { create } = useRequestOtp();
-  const router = useRouter();
+  // const router = useRouter();
+  const { setUpdateForm, payload } = usePPDB();
+
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required("Kolom ini harus diisi"),
+    nisn: Yup.string().required("Kolom ini harus diisi"),
+  });
   const formik = useFormik({
     initialValues: {
       name: "",
-      NISN: "",
-      tempatLahir: "",
-      agama: "",
-      noHp: "",
-      alamatLengkap: "",
+      nisn: "",
+    },
+    validationSchema,
+    onSubmit: (val) => {
+      goToNext();
+      setUpdateForm(val);
+      console.log({ payload });
+
+      console.log({ val });
     },
   });
+
+  // console.log();
+  console.log({ touched: formik.touched, values: formik.values });
+  useEffect(() => {
+    formik.setValues(payload);
+  }, [payload]);
 
   const dataForm = [
     {
@@ -31,13 +49,25 @@ export default function FormRegister({ goToNext, goToPrevious }) {
       // helperText: "NISN akan dipakai sebagai password siswa",
       type: "text",
       placeholder: "Nama Lengkap",
+      isRequired: true,
       // colSpan: 1,
     },
     {
       id: "nisn",
       label: "NISN",
-      type: "text",
+      type: "number",
       placeholder: "NISN",
+      isRequired: true,
+
+      // colSpan: 1,
+    },
+    {
+      id: "pob",
+      label: "Tanggal Lahir",
+      type: "date",
+      placeholder: "Tanggal Lahir",
+      // isRequired: true,
+
       // colSpan: 1,
     },
     {
@@ -45,6 +75,8 @@ export default function FormRegister({ goToNext, goToPrevious }) {
       label: "Tempat Lahir",
       type: "text",
       placeholder: "Tempat Lahir",
+      // isRequired: true,
+
       // colSpan: 1,
     },
     {
@@ -56,6 +88,7 @@ export default function FormRegister({ goToNext, goToPrevious }) {
     },
     {
       id: "phone",
+      leftAddon: "+62",
       label: "No HP",
       type: "number",
       placeholder: "No HP",
@@ -85,12 +118,14 @@ export default function FormRegister({ goToNext, goToPrevious }) {
         pt={16}
         gap={4}
       >
-        <Button onClick={() => goToPrevious()}>Kembali</Button>
+        {/* <Button onClick={() => goToPrevious()}> Kembali</Button> */}
         <Button
           bgColor="#2C5282"
           color="white"
           _hover={"none"}
-          onClick={() => goToNext()}
+          type="submit"
+          form="form-generator"
+          // onClick={() => }
         >
           Selanjutnya
         </Button>

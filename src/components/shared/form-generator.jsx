@@ -29,7 +29,7 @@ import {
 } from "@chakra-ui/react";
 import { FaFile } from "react-icons/fa";
 import { FieldArray, Formik, FormikProvider } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
 //   import { useNavigate } from 'react-router-dom';
 import { useDropzone } from "react-dropzone";
@@ -38,6 +38,7 @@ import TimeField from "react-simple-timefield";
 import { CiCircleCheck } from "react-icons/ci";
 import { MdAttachFile } from "react-icons/md";
 import { AiOutlineClose } from "react-icons/ai";
+import { usePPDB } from "@/context/ppdb.context";
 const FormGenerator = ({ id, dataForm, formik, grid }) => {
   const navigate = useRouter();
   const handleComponentFields = (res, isArray, index) => {
@@ -57,10 +58,14 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
       return (
         <GridItem colSpan={res?.colSpan || grid} key={res.id}>
           <FormControl
-            isRequired={res?.isRequired || false}
             isInvalid={formik.errors[res.id] && formik.touched[res.id]}
           >
-            <FormLabel>{label}</FormLabel>
+            <FormLabel>
+              {label}
+              {res?.isRequired && (
+                <span style={{ color: "red", marginLeft: "4px" }}>*</span>
+              )}{" "}
+            </FormLabel>
             <InputGroup>
               {res?.leftAddon && (
                 <InputLeftAddon>{res?.leftAddon}</InputLeftAddon>
@@ -84,6 +89,30 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
       const [file, setFile] = useState("");
       const [dialog, setDialog] = useState(false);
       const [isUpload, setIsUpload] = useState(false);
+      useEffect(() => {
+        // Periksa apakah formik.values[res.id] adalah array file dan apakah file sudah diatur
+        if (Array.isArray(formik.values[res.id]) && !file) {
+          // Ambil file pertama dari array
+          const firstFile = formik.values[res.id][0];
+
+          if (firstFile) {
+            const reader = new FileReader();
+
+            // Baca file sebagai URL data
+            reader.readAsDataURL(firstFile);
+
+            // Setelah membaca file, ambil URL data dan lakukan sesuatu dengannya
+            reader.onload = () => {
+              const fileUrl = reader.result;
+              setIsUpload(true);
+              setFile(fileUrl);
+              console.log("File URL:", fileUrl);
+              // Lakukan sesuatu dengan fileUrl, seperti menampilkannya atau mengirimkannya ke server
+            };
+          }
+        }
+      }, [formik.values[res.id]]);
+      console.log({ file });
       const { acceptedFiles, fileRejections, getRootProps, getInputProps } =
         useDropzone({
           onDrop: (acceptedFiles, rejectedFiles) => {
@@ -112,10 +141,14 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
         <GridItem colSpan={res?.colSpan || grid} key={res.id}>
           {/* <img src={file} /> */}
           <FormControl
-            isRequired={res?.isRequired || false}
             isInvalid={formik.errors[res.id] && formik.touched[res.id]}
           >
-            <FormLabel>{label}</FormLabel>
+            <FormLabel>
+              {label}
+              {res?.isRequired && (
+                <span style={{ color: "red", marginLeft: "4px" }}>*</span>
+              )}{" "}
+            </FormLabel>
             {isUpload ? (
               <Box
                 borderRadius={"5px"}
@@ -218,10 +251,14 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
       return (
         <GridItem colSpan={res?.colSpan || grid} key={res.id}>
           <FormControl
-            isRequired={res?.isRequired || false}
             isInvalid={formik.errors[res.id] && formik.touched[res.id]}
           >
-            <FormLabel>{label}</FormLabel>
+            <FormLabel>
+              {label}
+              {res?.isRequired && (
+                <span style={{ color: "red", marginLeft: "4px" }}>*</span>
+              )}{" "}
+            </FormLabel>
             <InputGroup>
               {/* {res?.leftAddon && (
                 <InputLeftAddon>{res?.leftAddon}</InputLeftAddon>
@@ -251,10 +288,14 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
       return (
         <GridItem colSpan={res?.colSpan || grid} key={res.id}>
           <FormControl
-            isRequired={res?.isRequired || false}
             isInvalid={formik.errors[res.id] && formik.touched[res.id]}
           >
-            <FormLabel>{label}</FormLabel>
+            <FormLabel>
+              {label}
+              {res?.isRequired && (
+                <span style={{ color: "red", marginLeft: "4px" }}>*</span>
+              )}{" "}
+            </FormLabel>
             <TimeField
               // inputRef={{}}
               value={formik?.values[res.id]}
@@ -286,10 +327,14 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
       return (
         <GridItem colSpan={res?.colSpan || grid} key={res.id}>
           <FormControl
-            isRequired={res?.isRequired || false}
             isInvalid={formik.errors[res.id] && formik.touched[res.id]}
           >
-            <FormLabel htmlFor={res.id}>{label}</FormLabel>
+            <FormLabel htmlFor={res.id}>
+              {label}*
+              {res?.isRequired && (
+                <span style={{ color: "red", marginLeft: "4px" }}>*</span>
+              )}{" "}
+            </FormLabel>
             <Input
               onBlur={formik.handleBlur}
               {...formik.getFieldProps(res.id)}
@@ -310,10 +355,14 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
       return (
         <GridItem colSpan={res?.colSpan || grid} key={res.id}>
           <FormControl
-            isRequired={res?.isRequired || false}
             isInvalid={formik.errors[res.id] && formik.touched[res.id]}
           >
-            <FormLabel htmlFor={res.id}>{label}</FormLabel>
+            <FormLabel htmlFor={res.id}>
+              {label}*
+              {res?.isRequired && (
+                <span style={{ color: "red", marginLeft: "4px" }}>*</span>
+              )}{" "}
+            </FormLabel>
             <Select
               onBlur={formik.handleBlur}
               {...formik.getFieldProps(res.id)}
@@ -374,18 +423,27 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
       return (
         <GridItem colSpan={res?.colSpan || grid} key={res.id}>
           <FormControl
-            isRequired={res?.isRequired || false}
             isInvalid={formik.errors[res.id] && formik.touched[res.id]}
           >
-            <FormLabel htmlFor={res.id}>{label}</FormLabel>
-            <Input
-              onBlur={formik.handleBlur}
-              {...formik.getFieldProps(res.id)}
-              placeholder={res?.placeholder}
-              disabled={res?.disabled}
-              type="number"
-              size={"md"}
-            />
+            <FormLabel>
+              {label}
+              {res?.isRequired && (
+                <span style={{ color: "red", marginLeft: "4px" }}>*</span>
+              )}{" "}
+            </FormLabel>
+            <InputGroup>
+              {res?.leftAddon && (
+                <InputLeftAddon>{res?.leftAddon}</InputLeftAddon>
+              )}
+              <Input
+                {...formik.getFieldProps(res.id)}
+                onBlur={formik.handleBlur}
+                placeholder={res?.placeholder}
+                disabled={res?.disabled}
+                type="number"
+                size={"md"}
+              />
+            </InputGroup>
             <FormErrorMessage>{formik.errors[res.id]}</FormErrorMessage>
             <FormHelperText>{res?.helperText}</FormHelperText>
           </FormControl>
@@ -399,10 +457,14 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
       return (
         <GridItem colSpan={res?.colSpan || grid} key={res.id}>
           <FormControl
-            isRequired={res?.isRequired || false}
             isInvalid={formik.errors[res.id] && formik.touched[res.id]}
           >
-            <FormLabel htmlFor={res.id}>{label}</FormLabel>
+            <FormLabel htmlFor={res.id}>
+              {label}*
+              {res?.isRequired && (
+                <span style={{ color: "red", marginLeft: "4px" }}>*</span>
+              )}{" "}
+            </FormLabel>
             <Textarea
               {...formik.getFieldProps(res.id)}
               onBlur={formik.handleBlur}
@@ -447,7 +509,11 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
   return (
     <FormikProvider value={formik}>
       <Box as="form" id={id} onSubmit={formik.handleSubmit}>
-        <Grid templateColumns={`repeat(${grid}, 1fr)`} gap={3}>
+        <Grid
+          templateColumns={`repeat(${grid}, 1fr )`}
+          // templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(6, 1fr)" }}
+          gap={3}
+        >
           {dataForm.map((res) => {
             //TEXTFIELD
             if (res.type != "arrayfield") {

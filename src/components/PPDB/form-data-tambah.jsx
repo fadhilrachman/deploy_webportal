@@ -1,13 +1,27 @@
 import FormGenerator from "@/components/shared/form-generator";
+import { usePPDB } from "@/context/ppdb.context";
 import { Box, Button } from "@chakra-ui/react";
 import { useFormik } from "formik";
+import { useEffect } from "react";
 
 export default function FormDataTambah({ goToNext, goToPrevious }) {
+  const { setUpdateForm, payload } = usePPDB();
+
   const formik = useFormik({
     initialValues: {
       name: "",
     },
+    onSubmit: (val) => {
+      // goToPrevious();
+      setUpdateForm({ ...payload, ...val });
+      console.log({ payload });
+      console.log("form-data-tambah");
+    },
   });
+
+  useEffect(() => {
+    formik.setValues(payload);
+  }, [payload]);
 
   const dataForm = [
     {
@@ -59,6 +73,7 @@ export default function FormDataTambah({ goToNext, goToPrevious }) {
     {
       id: "no hp",
       label: "No.Hp",
+      leftAddon: "+62",
       type: "number",
       placeholder: "No.Hp",
     },
@@ -85,12 +100,25 @@ export default function FormDataTambah({ goToNext, goToPrevious }) {
         pt={16}
         gap={4}
       >
-        <Button onClick={() => goToPrevious()}>Kembali</Button>
+        <Button
+          type="button"
+          onClick={() => {
+            formik.handleSubmit();
+            goToPrevious();
+          }}
+        >
+          Kembali
+        </Button>
         <Button
           bgColor="#2C5282"
           color="white"
           _hover={"none"}
-          onClick={() => goToNext()}
+          type="button"
+          onClick={() => {
+            formik.handleSubmit();
+            goToNext();
+          }}
+          // onClick={() => goToNext()}
         >
           Selanjutnya
         </Button>

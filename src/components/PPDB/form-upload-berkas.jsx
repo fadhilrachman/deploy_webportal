@@ -1,14 +1,26 @@
 import FormGenerator from "@/components/shared/form-generator";
+import { usePPDB } from "@/context/ppdb.context";
 import { Box, Button } from "@chakra-ui/react";
 import { useFormik } from "formik";
+import { useEffect } from "react";
 
 export default function FormUploadFolder({ goToNext, goToPrevious }) {
+  const { setUpdateForm, payload } = usePPDB();
   const formik = useFormik({
-    initialValues: {
-      name: "",
+    initialValues: {},
+    onSubmit: (val) => {
+      // goToPrevious();
+      setUpdateForm({ ...payload, ...val });
+      console.log({ payload });
+      console.log("form-data-tambah");
     },
   });
 
+  useEffect(() => {
+    formik.setValues(payload);
+  }, [payload]);
+
+  console.log({ values: formik.values });
   const dataForm = [
     {
       type: "subTitle",
@@ -18,7 +30,7 @@ export default function FormUploadFolder({ goToNext, goToPrevious }) {
     },
     {
       id: "birthCertificateFile",
-      label: "Upload File Surat Kata Lahi ",
+      label: "Upload File Surat Kata Lahir ",
       type: "file",
       placeholder: "Agama",
       colSpan: 1,
@@ -75,12 +87,25 @@ export default function FormUploadFolder({ goToNext, goToPrevious }) {
         pt={16}
         gap={4}
       >
-        <Button onClick={() => goToPrevious()}>Kembali</Button>
+        <Button
+          type="button"
+          onClick={() => {
+            formik.handleSubmit();
+            goToPrevious();
+          }}
+        >
+          Kembali
+        </Button>
         <Button
           bgColor="#2C5282"
           color="white"
           _hover={"none"}
-          onClick={() => goToNext()}
+          type="button"
+          onClick={() => {
+            formik.handleSubmit();
+            goToNext();
+          }}
+          // onClick={() => goToNext()}
         >
           Selanjutnya
         </Button>
