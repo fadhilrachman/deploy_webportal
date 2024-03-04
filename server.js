@@ -11,21 +11,14 @@ app.prepare().then(() => {
   const server = express();
 
   // Subdomain handling
-  const subdomain1App = express();
-  const subdomain2App = express();
+  const vercelApp = express();
 
-  subdomain1App.get("*", (req, res) => {
+  vercelApp.all("*", (req, res) => {
     return handle(req, res);
   });
 
-  subdomain2App.get("*", (req, res) => {
-    return handle(req, res);
-  });
-
-  server.use(vhost("subdomain1.localhost", subdomain1App));
-  server.use(vhost("subdomain2.localhost", subdomain2App));
-
-  // Start server
+  // Menambahkan domain Vercel ke pengaturan vhost
+  server.use(vhost("cobain123.vercel.app", vercelApp));
   createServer(server).listen(3000, (err) => {
     console.log("asdasdasdd");
 
