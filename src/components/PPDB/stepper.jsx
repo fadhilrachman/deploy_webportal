@@ -1,26 +1,45 @@
 "use client";
 
-import { Box, Step, StepIcon, StepIndicator, StepSeparator, StepStatus, StepTitle, Stepper } from "@chakra-ui/react";
+import {
+  Box,
+  Progress,
+  Stack,
+  Step,
+  StepIcon,
+  StepIndicator,
+  StepSeparator,
+  StepStatus,
+  StepTitle,
+  Stepper,
+  Text,
+} from "@chakra-ui/react";
 
 function MyStepper({ activeStep, steps }) {
+  // const steps = [
+  //   { title: "First", description: "Contact Info" },
+  //   { title: "Second", description: "Date & Time" },
+  //   { title: "Third", description: "Select Rooms" },
+  // ];
+
+  const max = steps.length - 1;
+  const progressPercent = (activeStep / max) * 100;
   return (
-    <Box w={"70vw"}>
-      <Stepper index={activeStep} size="md" gap="0">
+    <Stack w={"40%"}>
+      <Stepper size="md" index={activeStep} gap="0">
         {steps.map((step, index) => (
-          <Step key={index} display="flex" justifyContent="center" alignItems="center" gap="">
-            <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" gap={2} mt={6}>
-              <StepIndicator bg="#90CDF4" w="50px" h="50px">
-                <StepStatus complete={<StepIcon />} active={<Box width="80%" height="80%" bg="#3182CE" rounded="50%" />} />
-              </StepIndicator>
-
-              <StepTitle>{step.title}</StepTitle>
-            </Box>
-
-            <StepSeparator />
+          <Step key={index} gap="0">
+            <StepIndicator>
+              <StepStatus complete={<StepIcon />} />
+              {/* <StepStatus incomple={<>kontol</>} /> */}
+            </StepIndicator>
+            <StepSeparator _horizontal={{ ml: "0" }} />
           </Step>
         ))}
       </Stepper>
-    </Box>
+      {/* <Text>
+        Step {activeStep + 1}: <b>{activeStepText}</b>
+      </Text> */}
+    </Stack>
   );
 }
 

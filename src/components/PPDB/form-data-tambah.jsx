@@ -53,32 +53,33 @@ export default function FormDataTambah({ goToNext, goToPrevious }) {
       id: "asasdasdd",
     },
     {
-      id: "Nama Lengkap",
+      id: "pedigree.fullName",
       label: "Nama Lengkap",
       type: "text",
       placeholder: "Nama Lengkap",
     },
     {
-      id: "NIK",
+      id: "pedigree.nik",
       label: "NIK",
       type: "number",
       placeholder: "NIK",
     },
     {
-      id: "Pekerjaan",
+      id: "pedigree.job",
+
       label: "Pekerjaan",
       type: "Text",
       placeholder: "Pekerjaan",
     },
     {
-      id: "no hp",
+      id: "pedigree.phone",
       label: "No.Hp",
       leftAddon: "+62",
       type: "number",
       placeholder: "No.Hp",
     },
     {
-      id: "Alamat Lengkap",
+      id: "pedigree.address",
       label: "Alamat Lengkap",
       type: "textarea",
       placeholder: "Alamat Lengkap",

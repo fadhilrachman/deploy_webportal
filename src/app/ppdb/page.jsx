@@ -10,6 +10,7 @@ import {
   HeaderPPDB,
 } from "@/components/PPDB";
 import { useRequestOtp } from "@/hooks/auth.hooks";
+import { usePPDB } from "@/context/ppdb.context";
 // import { useListDataPPDb } from "@/hooks/ppdb.hooks";
 
 const steps = [
@@ -21,11 +22,13 @@ const steps = [
 
 export default function Pepep() {
   const { create } = useRequestOtp();
+  const { payload } = usePPDB();
 
   const { activeStep, goToNext, goToPrevious } = useSteps({
     index: 0,
     count: steps.length,
   });
+  console.log({ payload });
 
   const form = {
     0: <FormDataDiri goToNext={goToNext} goToPrevious={goToPrevious} />,

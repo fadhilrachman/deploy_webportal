@@ -12,12 +12,16 @@ export default function FormRegister({ goToNext, goToPrevious }) {
   const { setUpdateForm, payload } = usePPDB();
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Kolom ini harus diisi"),
+    fullName: Yup.string().required("Kolom ini harus diisi"),
+    email: Yup.string()
+      .email("Harus email yang valid")
+      .required("Kolom ini harus diisi"),
     nisn: Yup.string().required("Kolom ini harus diisi"),
   });
   const formik = useFormik({
     initialValues: {
-      name: "",
+      fullName: "",
+      email: "",
       nisn: "",
     },
     validationSchema,
@@ -31,7 +35,8 @@ export default function FormRegister({ goToNext, goToPrevious }) {
   });
 
   // console.log();
-  console.log({ touched: formik.touched, values: formik.values });
+
+  console.log({ values: formik.values });
   useEffect(() => {
     formik.setValues(payload);
   }, [payload]);
@@ -44,11 +49,20 @@ export default function FormRegister({ goToNext, goToPrevious }) {
       // colSpan: 1,
     },
     {
-      id: "name",
+      id: "fullName",
       label: "Nama Lengkap",
       // helperText: "NISN akan dipakai sebagai password siswa",
       type: "text",
       placeholder: "Nama Lengkap",
+      isRequired: true,
+      // colSpan: 1,
+    },
+    {
+      id: "email",
+      label: "Email",
+      // helperText: "NISN akan dipakai sebagai password siswa",
+      type: "text",
+      placeholder: "Email",
       isRequired: true,
       // colSpan: 1,
     },

@@ -1,13 +1,37 @@
 import FormGenerator from "@/components/shared/form-generator";
 import { usePPDB } from "@/context/ppdb.context";
-import { Box, Button } from "@chakra-ui/react";
-import { useFormik } from "formik";
-import { useEffect } from "react";
-
+import {
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Icon,
+  Input,
+  Text,
+} from "@chakra-ui/react";
+import { FieldArray, FormikProvider, useFormik } from "formik";
+import { useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
+import { AiOutlineClose } from "react-icons/ai";
+import { FaFile, FaTrash } from "react-icons/fa";
+import { MdAttachFile } from "react-icons/md";
+import { IoFileTrayOutline } from "react-icons/io5";
 export default function FormUploadFolder({ goToNext, goToPrevious }) {
   const { setUpdateForm, payload } = usePPDB();
+  const [file, setFile] = useState("");
+  const [dialog, setDialog] = useState(false);
+  const [isUpload, setIsUpload] = useState(false);
+
   const formik = useFormik({
-    initialValues: {},
+    initialValues: {
+      certificates: [
+        {
+          certificate: "",
+          description: "",
+        },
+      ],
+    },
     onSubmit: (val) => {
       // goToPrevious();
       setUpdateForm({ ...payload, ...val });
@@ -15,7 +39,32 @@ export default function FormUploadFolder({ goToNext, goToPrevious }) {
       console.log("form-data-tambah");
     },
   });
+  const { acceptedFiles, fileRejections, getRootProps, getInputProps } =
+    useDropzone({
+      onDrop: (acceptedFiles, rejectedFiles) => {
+        // formik.setFieldValue(
+        //   `certificates.${index}.certificate`,
+        //   acceptedFiles
+        // );
+        setIsUpload(true);
+        acceptedFiles.forEach((file) => {
+          const reader = new FileReader();
 
+          // Baca file sebagai URL data
+          reader.readAsDataURL(file);
+
+          // Setelah membaca file, ambil URL data dan lakukan sesuatu dengannya
+          reader.onload = () => {
+            const fileUrl = reader.result;
+            setFile(fileUrl);
+            console.log("File URL:", fileUrl);
+            // Lakukan sesuatu dengan fileUrl, seperti menampilkannya atau mengirimkannya ke server
+          };
+        });
+      },
+
+      maxFiles: 1,
+    });
   useEffect(() => {
     formik.setValues(payload);
   }, [payload]);
@@ -32,7 +81,6 @@ export default function FormUploadFolder({ goToNext, goToPrevious }) {
       id: "birthCertificateFile",
       label: "Upload File Surat Kata Lahir ",
       type: "file",
-      placeholder: "Agama",
       colSpan: 1,
     },
     {
@@ -70,6 +118,27 @@ export default function FormUploadFolder({ goToNext, goToPrevious }) {
       placeholder: "Tempat Lahir",
       // colSpan: 1,
     },
+    {
+      id: "certificates",
+      label: "kontol",
+      type: "arrayfield",
+      title: "Sertifikat",
+      fieldArray: [
+        {
+          id: "certificate",
+          label: "Sertifikat",
+          type: "file",
+          placeholder: "Input the name",
+        },
+        {
+          id: "description",
+          label: "Deskripsi",
+          type: "text",
+          placeholder: "Input the name",
+        },
+      ],
+      placeholder: "Input the name",
+    },
   ];
 
   return (
@@ -80,6 +149,7 @@ export default function FormUploadFolder({ goToNext, goToPrevious }) {
         id={"form-generator"}
         grid={3}
       />
+
       <Box
         display="flex"
         justifyContent="end"

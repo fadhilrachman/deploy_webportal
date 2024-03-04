@@ -2,8 +2,15 @@ import { create } from "zustand";
 
 export const usePPDB = create((set, get) => ({
   payload: {
-    name: "",
+    fullName: "",
     nisn: "",
+    email: "",
+    // certificates: [
+    //   {
+    //     certificate: "",
+    //     description: "",
+    //   },
+    // ],
   },
   setUpdateForm: (payload) => {
     console.log("cuy");

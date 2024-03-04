@@ -5,7 +5,7 @@ import { Formik, useFormik } from "formik";
 
 const ExampleForm = () => {
   const formik = useFormik({
-    initialValues: { name: "" },
+    initialValues: { name: "", cuy: [] },
   });
   // formik.getFieldProps('na')
   const dataForm = [
@@ -70,6 +70,21 @@ const ExampleForm = () => {
       type: "textarea",
       placeholder: "Input the name",
     },
+    {
+      id: "cuy",
+      label: "kontol",
+      type: "arrayfield",
+      title: "Certificates",
+      fieldArray: [
+        {
+          id: "name",
+          label: "Example Password",
+          type: "text",
+          placeholder: "Input the name",
+        },
+      ],
+      placeholder: "Input the name",
+    },
   ];
 
   console.log(formik.values);
@@ -80,7 +95,12 @@ const ExampleForm = () => {
       <Card>
         {/* <CardHeader></CardHeader> */}
         <CardBody>
-          <FormGenerator dataForm={dataForm} formik={formik} id={"form-generator"} grid={2} />
+          <FormGenerator
+            dataForm={dataForm}
+            formik={formik}
+            id={"form-generator"}
+            grid={1}
+          />
         </CardBody>
       </Card>
     </Box>

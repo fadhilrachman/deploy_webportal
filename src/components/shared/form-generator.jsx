@@ -3,12 +3,14 @@ import {
   Box,
   Button,
   Divider,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
   Grid,
   GridItem,
+  Icon,
   Image,
   Input,
   InputGroup,
@@ -27,7 +29,7 @@ import {
   Text,
   Textarea,
 } from "@chakra-ui/react";
-import { FaFile } from "react-icons/fa";
+import { FaFile, FaTrash } from "react-icons/fa";
 import { FieldArray, Formik, FormikProvider } from "formik";
 import React, { useEffect, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
@@ -39,17 +41,18 @@ import { CiCircleCheck } from "react-icons/ci";
 import { MdAttachFile } from "react-icons/md";
 import { AiOutlineClose } from "react-icons/ai";
 import { usePPDB } from "@/context/ppdb.context";
+import { IoFileTrayOutline } from "react-icons/io5";
 const FormGenerator = ({ id, dataForm, formik, grid }) => {
   const navigate = useRouter();
   const handleComponentFields = (res, isArray, index) => {
     // const file =
 
     // const values =isArray?formik.values[res.id]:formik.values[res.id]
-    // const values = isArray
-    //   ? formik.values[res?.id][index][isArray.id] || ''
-    //   : formik.values[res?.id] || '';
+    const values = isArray
+      ? formik.values[res?.id][index][isArray.id] || ""
+      : formik.values[res?.id] || "";
 
-    // const id = isArray ? `${res.id}[${[index]}].${[isArray.id]}` : res.id;
+    const id = isArray ? `${res.id}[${[index]}].${[isArray.id]}` : res.id;
     // const placeholder = isArray ? isArray.placeholder : res.placeholder;
     const label = isArray ? isArray.label : res.label;
     // const res?.helperText = isArray ? isArray.res?.helperText : res.res?.helperText;
@@ -85,7 +88,7 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
         </GridItem>
       );
     }
-    if (res.type == "file" || isArray?.type == "file") {
+    if (res.type == "file") {
       const [file, setFile] = useState("");
       const [dialog, setDialog] = useState(false);
       const [isUpload, setIsUpload] = useState(false);
@@ -187,12 +190,13 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
                 border={"1px solid #A8A8A8"}
                 borderStyle={"dashed"}
                 borderRadius={"10px"}
-                height={"100px"}
+                height={"150px"}
+                backgroundColor={"#f7f9fa"}
                 mx={3}
                 display={"flex"}
                 alignItems={"center"}
                 justifyContent={"center"}
-                _hover={{ backgroundColor: "#dee0e0" }}
+                _hover={{ borderColor: "#90CDF4" }}
                 cursor={"pointer"}
                 {...getRootProps()}
               >
@@ -202,10 +206,19 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
                   ID="fileSelect"
                   accept=".jpg, .png, .pdf"
                 />
+                <Box
+                  display={"flex"}
+                  flexDirection={"column"}
+                  alignItems={"center"}
+                >
+                  <Icon as={IoFileTrayOutline} fontSize={"40px"} />
 
-                <Box display={"flex"} alignItems={"center"}>
-                  <FaFile color="gray" height={"200px"} width={"200px"} />
-                  <Text ml={2}>Pilih atau Drag File</Text>
+                  <Text ml={2}>
+                    klik atau seret file ke area ini untuk upload
+                  </Text>
+                  <Text ml={2} fontSize={"small"} color={"GrayText"}>
+                    Maksimal size 5 MB
+                  </Text>
                 </Box>
               </Box>
             )}
@@ -482,21 +495,229 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
   };
 
   const handleFieldArray = (res) => {
-    console.log({ values: formik.values[res.id], res });
+    console.log({ values: formik.values, res });
+    // const values = isArray
+    // ? formik.values[res?.id][index][isArray.id] || ""
+    // : formik.values[res?.id] || "";
+
+    // const id = isArray ? `${res.id}[${[index]}].${[isArray.id]}` : res.id;
+    const [file, setFile] = useState("");
+    const [dialog, setDialog] = useState(false);
+    const [isUpload, setIsUpload] = useState(false);
+    const { acceptedFiles, fileRejections, getRootProps, getInputProps } =
+      useDropzone({
+        onDrop: (acceptedFiles, rejectedFiles) => {
+          formik.setFieldValue(res.id, acceptedFiles);
+          setIsUpload(true);
+          acceptedFiles.forEach((file) => {
+            const reader = new FileReader();
+
+            // Baca file sebagai URL data
+            reader.readAsDataURL(file);
+
+            // Setelah membaca file, ambil URL data dan lakukan sesuatu dengannya
+            reader.onload = () => {
+              const fileUrl = reader.result;
+              setFile(fileUrl);
+              console.log("File URL:", fileUrl);
+              // Lakukan sesuatu dengan fileUrl, seperti menampilkannya atau mengirimkannya ke server
+            };
+          });
+        },
+
+        maxFiles: 1,
+      });
+
+    // useEffect(() => {
+    //   // Periksa apakah formik.values[res.id] adalah array file dan apakah file sudah diatur
+    //   if (Array.isArray(values) && !file) {
+    //     // Ambil file pertama dari array
+    //     const firstFile = values[0];
+
+    //     if (firstFile) {
+    //       const reader = new FileReader();
+
+    //       // Baca file sebagai URL data
+    //       reader.readAsDataURL(firstFile);
+
+    //       // Setelah membaca file, ambil URL data dan lakukan sesuatu dengannya
+    //       reader.onload = () => {
+    //         const fileUrl = reader.result;
+    //         setIsUpload(true);
+    //         setFile(fileUrl);
+    //         console.log("File URL:", fileUrl);
+    //         // Lakukan sesuatu dengan fileUrl, seperti menampilkannya atau mengirimkannya ke server
+    //       };
+    //     }
+    //   }
+    // }, [values]);
     return (
       <FieldArray
         name={res.id}
         render={(arrayHelpers) => {
           return (
             <div>
-              {formik.values[res.id].map((friend, index) =>
-                res.fieldArray.map((resChild) => {
-                  return handleComponentFields(res, resChild, index);
-                })
-              )}
+              {formik.values[res.id].map((friend, index) => {
+                return (
+                  <Box>
+                    <Flex
+                      justifyContent={"space-between"}
+                      alignItems={"center"}
+                    >
+                      <Text fontSize={"20px"} fontWeight={"bold"}>
+                        {res?.title} {index + 1}
+                      </Text>
+                      <FaTrash
+                        color="red"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          arrayHelpers.remove(index);
+                        }}
+                      />
+                    </Flex>
+                    {res.fieldArray.map((resChild) => {
+                      // const [cuy, setcuy] = useState();
+                      console.log({ resChild });
+                      return (
+                        <Box mb={5}>
+                          {resChild.type == "file" && (
+                            <GridItem
+                              colSpan={res?.colSpan || grid}
+                              key={res.id}
+                            >
+                              {/* <img src={file} /> */}
+                              <FormControl
+                                isInvalid={
+                                  formik.errors[res.id] &&
+                                  formik.touched[res.id]
+                                }
+                              >
+                                <FormLabel>
+                                  {"konol"}
+                                  {res?.isRequired && (
+                                    <span
+                                      style={{
+                                        color: "red",
+                                        marginLeft: "4px",
+                                      }}
+                                    >
+                                      *
+                                    </span>
+                                  )}{" "}
+                                </FormLabel>
+                                {isUpload ? (
+                                  <Box
+                                    borderRadius={"5px"}
+                                    mx={3}
+                                    display={"flex"}
+                                    alignItems={"center"}
+                                    justifyContent={"space-between"}
+                                    backgroundColor={"#ebf3f7"}
+                                    padding={"10px"}
+                                  >
+                                    <Text
+                                      color={"#2aa9e8"}
+                                      fontWeight={100}
+                                      cursor={"pointer"}
+                                      display={"flex"}
+                                      alignItems={"center"}
+                                      onClick={() => {
+                                        setDialog(true);
+                                      }}
+                                    >
+                                      <MdAttachFile />
+                                      examplegambar.png
+                                    </Text>
+                                    <Text
+                                      cursor={"pointer"}
+                                      onClick={() => {
+                                        formik.setFieldValue(res.id, "");
+                                        setIsUpload(false);
+                                      }}
+                                    >
+                                      <AiOutlineClose color="red" />
+                                    </Text>
+                                  </Box>
+                                ) : (
+                                  <Box
+                                    border={"1px solid #A8A8A8"}
+                                    borderStyle={"dashed"}
+                                    borderRadius={"10px"}
+                                    height={"100px"}
+                                    mx={3}
+                                    display={"flex"}
+                                    alignItems={"center"}
+                                    justifyContent={"center"}
+                                    _hover={{ backgroundColor: "#dee0e0" }}
+                                    cursor={"pointer"}
+                                    {...getRootProps()}
+                                  >
+                                    <input
+                                      {...getInputProps()}
+                                      type="file"
+                                      ID="fileSelect"
+                                      accept=".jpg, .png, .pdf"
+                                    />
+
+                                    <Box display={"flex"} alignItems={"center"}>
+                                      <FaFile
+                                        color="gray"
+                                        height={"200px"}
+                                        width={"200px"}
+                                      />
+                                      <Text ml={2}>Pilih atau Drag File</Text>
+                                    </Box>
+                                  </Box>
+                                )}
+
+                                <Modal
+                                  isOpen={dialog}
+                                  onClose={() => {
+                                    setDialog(false);
+                                  }}
+                                >
+                                  <ModalOverlay />
+                                  <ModalContent>
+                                    <ModalHeader>Modal Title</ModalHeader>
+                                    <ModalCloseButton />
+                                    <ModalBody>
+                                      <Image src={file} height={"100px"} />
+                                    </ModalBody>
+
+                                    <ModalFooter>
+                                      <Button
+                                        colorScheme="blue"
+                                        mr={3}
+                                        onClick={() => {
+                                          setDialog(false);
+                                        }}
+                                      >
+                                        Close
+                                      </Button>
+                                    </ModalFooter>
+                                  </ModalContent>
+                                </Modal>
+
+                                <FormErrorMessage>
+                                  {formik.errors[res.id]}
+                                </FormErrorMessage>
+                                <FormHelperText>
+                                  {res?.helperText}
+                                </FormHelperText>
+                              </FormControl>
+                            </GridItem>
+                          )}
+                          {handleComponentFields(res, resChild, index)}
+                        </Box>
+                      );
+                    })}
+                  </Box>
+                );
+              })}
               <Button
                 type="button"
-                onClick={() => arrayHelpers.push({ userName: "" })}
+                w={"100%"}
+                onClick={() => arrayHelpers.push({})}
               >
                 +
               </Button>
@@ -520,6 +741,7 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
               return handleComponentFields(res);
             }
             // if (res.type == "arrayfield") {
+            //   console.log("kintoll");
             //   return handleFieldArray(res);
             // }
             //FIELD ARRAY

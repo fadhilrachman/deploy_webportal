@@ -12,7 +12,7 @@ const { apiBaseUrl } = CONFIG_ENVIRONMENT.env;
 
 function createResource() {
   const instance = axios.create({
-    baseURL: "https://test.bisasekolah.id/",
+    baseURL: "http://localhost:5555/v1/",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
