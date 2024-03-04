@@ -13,7 +13,6 @@ app.prepare().then(() => {
   // Subdomain handling
   const subdomain1App = express();
   const subdomain2App = express();
-  QF;
 
   subdomain1App.get("*", (req, res) => {
     return handle(req, res);
