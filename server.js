@@ -11,17 +11,17 @@ app.prepare().then(() => {
   const server = express();
 
   // Subdomain handling
-  const vercelApp = express();
+  const subdomainApp = express();
 
-  vercelApp.all("*", (req, res) => {
+  subdomainApp.all("*", (req, res) => {
     return handle(req, res);
   });
 
-  // Menambahkan domain Vercel ke pengaturan vhost
-  server.use(vhost("cobain123.vercel.app", vercelApp));
-  createServer(server).listen(3000, (err) => {
-    console.log("asdasdasdd");
+  // Menambahkan subdomain cuy.cobain123.vercel.app ke pengaturan vhost
+  server.use(vhost("cuy.cobain123.vercel.app", subdomainApp));
 
+  // Start server
+  createServer(server).listen(3000, (err) => {
     if (err) throw err;
     console.log("> Ready on http://localhost:3000");
   });
