@@ -24,6 +24,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import ModalSubmit from "./modal-submit";
+import moment from "moment";
 
 const TableRechek = ({ goToPrevious }) => {
   // const { data } = useDetailSiswa(id);
@@ -47,7 +48,9 @@ const TableRechek = ({ goToPrevious }) => {
     },
     {
       label: "Tempat / Tanggal Lahir",
-      value: payload?.fullName || "-",
+      value: payload?.dob
+        ? `${payload?.pob}, ${moment(payload?.dob).format("DD MMMM YYYY")}`
+        : "-",
     },
     {
       label: "Agama",

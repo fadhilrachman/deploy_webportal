@@ -76,7 +76,7 @@ export default function FormRegister({ goToNext, goToPrevious }) {
       // colSpan: 1,
     },
     {
-      id: "pob",
+      id: "dob",
       label: "Tanggal Lahir",
       type: "date",
       placeholder: "Tanggal Lahir",
@@ -85,7 +85,7 @@ export default function FormRegister({ goToNext, goToPrevious }) {
       // colSpan: 1,
     },
     {
-      id: "dob",
+      id: "pob",
       label: "Tempat Lahir",
       type: "text",
       placeholder: "Tempat Lahir",

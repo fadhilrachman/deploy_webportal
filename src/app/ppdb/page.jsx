@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, Flex, Grid, useSteps } from "@chakra-ui/react";
+import { Box, Button, Flex, Grid, useSteps, useToast } from "@chakra-ui/react";
 import {
   FormDataDiri,
   FormDataTambah,
@@ -11,6 +11,8 @@ import {
 } from "@/components/PPDB";
 import { useRequestOtp } from "@/hooks/auth.hooks";
 import { usePPDB } from "@/context/ppdb.context";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 // import { useListDataPPDb } from "@/hooks/ppdb.hooks";
 
 const steps = [
@@ -22,13 +24,15 @@ const steps = [
 
 export default function Pepep() {
   const { create } = useRequestOtp();
-  const { payload } = usePPDB();
+  const router = useRouter();
+  const toast = useToast();
+  const { payload, otp } = usePPDB();
 
   const { activeStep, goToNext, goToPrevious } = useSteps({
     index: 0,
     count: steps.length,
   });
-  console.log({ payload });
+  console.log({ payload, otp });
 
   const form = {
     0: <FormDataDiri goToNext={goToNext} goToPrevious={goToPrevious} />,
@@ -36,6 +40,12 @@ export default function Pepep() {
     2: <FormUploadBerkas goToNext={goToNext} goToPrevious={goToPrevious} />,
     3: <TableRechek goToNext={goToNext} goToPrevious={goToPrevious} />,
   };
+  useEffect(() => {
+    if (!otp) {
+      router.push("/home");
+      toast({ title: "Verifikasi OTP terlebih dahulu", status: "warning" });
+    }
+  }, []);
 
   return (
     <Box px="49px" py="24px">

@@ -12,6 +12,12 @@ export const usePPDB = create((set, get) => ({
     //   },
     // ],
   },
+  otp: false,
+  setOtp: (payload) => {
+    set((state) => ({
+      otp: payload,
+    }));
+  },
   setUpdateForm: (payload) => {
     console.log("cuy");
     console.log({ kontol: payload });

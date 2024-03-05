@@ -80,6 +80,7 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
                 disabled={res?.disabled}
                 type="text"
                 size={"md"}
+                backgroundColor={"white"}
               />
             </InputGroup>
             <FormErrorMessage>{formik.errors[res.id]}</FormErrorMessage>
@@ -217,7 +218,7 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
                     klik atau seret file ke area ini untuk upload
                   </Text>
                   <Text ml={2} fontSize={"small"} color={"GrayText"}>
-                    Maksimal size 5 MB
+                    Maksimal size 5 MB backgroundColor={"white"}
                   </Text>
                 </Box>
               </Box>
@@ -283,9 +284,11 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
                 disabled={res?.disabled}
                 type={show ? "text" : "password"}
                 size={"md"}
+                backgroundColor={"white"}
               />
               <InputRightElement width="4.5rem">
                 <Button h="1.75rem" size="sm" onClick={handleClick}>
+                  {/* backgroundColor={"white"} */}
                   {show ? "Hide" : "Show"}
                 </Button>
               </InputRightElement>
@@ -324,6 +327,7 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
                   {...formik.getFieldProps(res.id)}
                   type="text"
                   size={"md"}
+                  backgroundColor={"white"}
                 />
               }
             />
@@ -355,6 +359,7 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
               placeholder={res?.placeholder}
               disabled={res?.disabled}
               size={"md"}
+              backgroundColor={"white"}
             />
             <FormErrorMessage>{formik.errors[res.id]}</FormErrorMessage>
             <FormHelperText>{res?.helperText}</FormHelperText>
@@ -382,6 +387,7 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
               placeholder={res?.placeholder}
               disabled={res?.disabled}
               size={"md"}
+              backgroundColor={"white"}
               options
             >
               {res.options.map((option, index) => (
@@ -404,6 +410,7 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
             {res?.withButtonBack && (
               <Button
                 size={"sm"}
+                backgroundColor={"white"}
                 onClick={() => {
                   navigate.back();
                 }}
@@ -455,6 +462,7 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
                 disabled={res?.disabled}
                 type="number"
                 size={"md"}
+                backgroundColor={"white"}
               />
             </InputGroup>
             <FormErrorMessage>{formik.errors[res.id]}</FormErrorMessage>
