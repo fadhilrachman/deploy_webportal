@@ -43,7 +43,11 @@ export default function Pepep() {
   useEffect(() => {
     if (!otp) {
       router.push("/home");
-      toast({ title: "Verifikasi OTP terlebih dahulu", status: "warning" });
+      toast({
+        title: "Verifikasi OTP terlebih dahulu",
+        status: "warning",
+        duration: 2000,
+      });
     }
   }, []);
 

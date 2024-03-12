@@ -1,23 +1,31 @@
 "use client";
 
 import HeaderLoginPpdb from "@/components/PPDB/header";
+import { useDataSchool } from "@/hooks/shared.hooks";
+import axios from "@/lib/axios";
 import { Box, Button, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
+  const subdomain = window.location.hostname.split(".")[0];
+  const { data, errorMessage } = useDataSchool({ page: 1 });
+
+  console.log({ data: data?.data?.find((res) => res.domain == subdomain) });
+
   const router = useRouter();
   return (
-    <Box px={24} py={16} w="100%" h="100vh">
+    <Box px={24} py={5} w="100%" h="100%">
       <HeaderLoginPpdb />
       <Box
         w="100%"
-        h="696px"
+        h="400px"
         display="flex"
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
-        mt="60px"
+        my="40px"
         bg=" #BEE3F8;"
         rounded={8}
       >

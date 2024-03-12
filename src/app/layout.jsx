@@ -3,6 +3,7 @@ import { Inter, Poppins } from "next/font/google";
 import Providers from "@/lib/provider";
 
 import HeaderLoginPpdb from "@/components/PPDB/header";
+import PpdbProvider from "@/layout/ppdb-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 const poppins = Poppins({
@@ -19,7 +20,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <PpdbProvider>{children}</PpdbProvider>
+        </Providers>
       </body>
     </html>
   );

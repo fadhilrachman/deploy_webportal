@@ -1,4 +1,5 @@
 import { usePPDB } from "@/context/ppdb.context";
+import { useShared } from "@/context/shared.context";
 import { useCreatePPPDB } from "@/hooks/ppdb.hooks";
 import {
   Button,
@@ -9,14 +10,25 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  useToast,
 } from "@chakra-ui/react";
 import React from "react";
 
 const ModalSubmit = ({ isOpen, onClose }) => {
   const { create, status } = useCreatePPPDB();
   const { payload } = usePPDB();
+  const { idSchool, schoolName } = useShared();
+  const toast = useToast();
   const handleSubmit = async () => {
-    await create(payload);
+    if (idSchool) {
+      await create({ ...payload, idSchool });
+    } else {
+      toast({
+        status: "error",
+        title: "Error Mendafatarkan",
+        description: "Sekolah tidak ditemukan",
+      });
+    }
     onClose();
   };
   return (

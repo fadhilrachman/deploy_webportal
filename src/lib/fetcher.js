@@ -49,13 +49,13 @@ export const useAsync = (asyncFunction) => {
 };
 
 export const useGetQuery = ({ queryKey, queryFn, enabled = true }) => {
-  const { data, status, error, isIdle, refetch, isFetching } = useQuery(
+  const { data, status, error, isIdle, refetch, isFetching } = useQuery({
     queryKey,
     queryFn,
-    {
-      enabled,
-    }
-  );
+    // {
+    //   enabled,
+    // }
+  });
 
   const errorMessage = useMemo(() => {
     if (error) {

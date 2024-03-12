@@ -218,7 +218,7 @@ const FormGenerator = ({ id, dataForm, formik, grid }) => {
                     klik atau seret file ke area ini untuk upload
                   </Text>
                   <Text ml={2} fontSize={"small"} color={"GrayText"}>
-                    Maksimal size 5 MB backgroundColor={"white"}
+                    Maksimal size 5 MB
                   </Text>
                 </Box>
               </Box>
