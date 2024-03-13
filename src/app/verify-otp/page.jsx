@@ -1,3 +1,4 @@
+"use client";
 import HeaderLoginPpdb from "@/components/PPDB/header";
 import FormVerifikasi from "@/components/verifikasi/formVerifikasi";
 import { Box, Container, Heading } from "@chakra-ui/react";
